@@ -33,8 +33,16 @@ class FileCommand(ICommand):
 
     def __read_matrix_from_file(self, path: str) -> tuple[t.Optional[list[list[float]]], t.Optional[float]]:
         # Read file
-        with open(path, "r") as file:
-            lines = file.readlines()
+        try:
+            with open(path, "r") as file:
+                lines = file.readlines()
+
+        except FileNotFoundError:
+            Printer.error("Файл не найден")
+            return None, None
+        except PermissionError:
+            Printer.error("Нет доступа к файлу")
+            return None, None
 
         n_str, eps_str = lines[0].split()
         try:

@@ -87,7 +87,6 @@ def solve(matrix: list[list[float]], eps: float):
             Printer.error("Невозможно достичь диагонального преобладания.")
             return
 
-    # Решение методом Якоби
     x, iterations, error = simple_iteration_method(A, b, eps)
 
     # Вывод результатов
