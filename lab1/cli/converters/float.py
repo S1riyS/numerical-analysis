@@ -1,4 +1,7 @@
-def convert2float(value: str) -> float:
+from decimal import Decimal
+
+
+def convert2decimal(value: str) -> Decimal:
     """
     Converts a string representation of a float to a float, replacing commas with periods.
 
@@ -12,4 +15,4 @@ def convert2float(value: str) -> float:
         ValueError: If the string cannot be converted to a float.
     """
     value = value.replace(",", ".")
-    return float(value)
+    return Decimal(value)

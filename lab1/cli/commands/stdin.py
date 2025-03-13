@@ -3,7 +3,7 @@ from cli.commands.command import ICommand
 from cli.commands.common.epsilon_reader import EplisonReader
 from cli.commands.common.size_reader import SizeReader
 from cli.console.printer import Printer
-from cli.converters.float import convert2float
+from cli.converters.float import convert2decimal
 from cli.errors import SizeError
 
 
@@ -31,7 +31,7 @@ class StdinCommand(ICommand, SizeReader, EplisonReader):
                 try:
                     # Read and validate row
                     row = input(f"Введите строку {i+1} матрицы: ").split()
-                    data = list(map(convert2float, row))
+                    data = list(map(convert2decimal, row))
                     if len(row) != n + 1:
                         raise SizeError(
                             f"Размерность строки не соответствует требуемой ({n} + 1 = {n + 1}, получено {len(row)})"

@@ -1,7 +1,8 @@
+from decimal import Decimal
 from cli.console.printer import Printer
-from cli.converters.float import convert2float
+from cli.converters.float import convert2decimal
 
-DEFAULT_EPSILON = 0.001
+DEFAULT_EPSILON = Decimal('0.001')
 
 
 class EplisonReader:
@@ -19,7 +20,7 @@ class EplisonReader:
                 if epsilon_input == "":
                     epsilon = DEFAULT_EPSILON
                 else:
-                    epsilon = convert2float(epsilon_input)
+                    epsilon = convert2decimal(epsilon_input)
 
                 valid_epsilon = True
             except ValueError:

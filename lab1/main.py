@@ -1,3 +1,5 @@
+from decimal import Decimal, getcontext
+
 from cli.commands import FileCommand, RandomCommand, StdinCommand
 from cli.console.printer import Printer
 
@@ -34,6 +36,7 @@ def main():
 
 if __name__ == "__main__":
     try:
+        getcontext().prec = 100 # Кол-во знаков после запятой
         main()
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         Printer.warning("\nРабота программы прервана")

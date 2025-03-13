@@ -1,10 +1,11 @@
+from decimal import Decimal
 import typing as t
 
 from algorithm import simple_iterations
 from cli.commands.command import ICommand
 from cli.commands.common.epsilon_reader import DEFAULT_EPSILON
 from cli.console.printer import Printer
-from cli.converters.float import convert2float
+from cli.converters.float import convert2decimal
 from cli.errors import SizeError
 
 
@@ -31,7 +32,7 @@ class FileCommand(ICommand):
         Printer.info("Ввод имени файла:")
         return input("Введите имя файла: ")
 
-    def __read_matrix_from_file(self, path: str) -> tuple[t.Optional[list[list[float]]], t.Optional[float]]:
+    def __read_matrix_from_file(self, path: str) -> tuple[t.Optional[list[list[Decimal]]], t.Optional[Decimal]]:
         # Read file
         try:
             with open(path, "r") as file:
@@ -51,7 +52,7 @@ class FileCommand(ICommand):
             if n <= 0 or n > 20:
                 raise SizeError("Размерность матрицы должна быть 1 <= N <= 20")
             # Read epsilon
-            eps = convert2float(eps_str)
+            eps = convert2decimal(eps_str)
             self.eps = eps
 
         except ValueError:
@@ -69,7 +70,7 @@ class FileCommand(ICommand):
                 if row_index + 1 > n:
                     raise SizeError(f"В матрице слишком много строк (должно быть {n})")
                 # Validate row length
-                row = list(map(float, line.split()))
+                row = list(map(convert2decimal, line.split()))
                 if len(row) != n + 1:
                     raise SizeError(
                         f"Размерность строки не соответствует требуемой ({n} + 1 = {n + 1}, получено {len(row)})"

@@ -24,6 +24,15 @@ class RandomCommand(ICommand, SizeReader, EplisonReader):
     def __create_matrix(self, n: int) -> list[list[float]]:
         matrix = [[0.0 for _ in range(n + 1)] for _ in range(n)]
         for i in range(n):
+            row_abs_sum = 0
             for j in range(n + 1):
                 matrix[i][j] = uniform(-5, 5)
+                row_abs_sum += abs(matrix[i][j])
+            matrix[i][i] = row_abs_sum + 1
+
+        Printer.default("Случайная матрица:")
+        for row in matrix:
+            for elem in row:
+                print(f"{elem:.2f}", end="\t")
+            Printer.new_line()
         return matrix
