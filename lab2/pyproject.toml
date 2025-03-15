@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "lab2"
+version = "0.1.0"
+description = "Numerical Analysis - Lab #2"
+authors = ["Kirill Ankudinov <kirill.ankudinov.94@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+matplotlib = "^3.10.1"
+scipy = "^1.15.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
