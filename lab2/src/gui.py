@@ -147,7 +147,11 @@ class MathSolverApp:
             left = convert2float(self.left_bound.get())
             right = convert2float(self.right_bound.get())
             epsilon = convert2decimal(self.equation_precision.get())
-        except ValueError:
+
+            if left >= right:
+                raise ValueError
+
+        except Exception:
             self.__set_result("Введены некорректные данные")
             return
 
@@ -155,11 +159,17 @@ class MathSolverApp:
         try:
             x = np.linspace(left, right, 400)
             y = list(map(self.chosen_equation.function, x))
-            y_zero = list(map(lambda _: 0, x))
 
             self.ax.clear()
+
+            self.ax.axhline(y=0, color="gray")
+            self.ax.axvline(x=0, color="gray")
             self.ax.plot(x, y)
-            self.ax.plot(x, y_zero, linestyle="dashed")
+
+            self.ax.relim()  # Пересчет границ данных
+            self.ax.autoscale()  # Автоматическое масштабирование осей
+            self.ax.grid(True)
+
             self.ax.set_title("График функции")
             self.canvas.draw()
         except Exception:
@@ -187,6 +197,9 @@ class MathSolverApp:
         try:
             result = method.solve()
             self.__set_result(str(result))
+            self.ax.scatter(result.root, result.function_value_at_root, color="red", s=20, zorder=3)
+            self.canvas.draw()
+
         except Exception as e:
             self.__set_result("Не удалось решить уравнение")
             print(e.with_traceback())
@@ -204,24 +217,6 @@ class MathSolverApp:
             self.__set_result("Введены некорректные данные")
             return
 
-        # Рисуем график
-        try:
-            x = np.linspace(x0 - 3, x0 + 3, 400)
-            y = np.linspace(y0 - 3, y0 + 3, 400)
-            X, Y = np.meshgrid(x, y)
-
-            Z1 = self.chosen_system.f1(X, Y)
-            Z2 = self.chosen_system.f2(X, Y)
-
-            self.ax.clear()
-            self.ax.contour(X, Y, Z1, levels=[0], colors="blue")
-            self.ax.contour(X, Y, Z2, levels=[0], colors="yellow")
-            self.ax.set_title("График функции")
-            self.canvas.draw()
-        except Exception:
-            self.__set_result("Не удалось отрисовать график")
-            return
-
         # Выбираем метод решения
         method = None
         if self.chosen_system_method == SystemMethod.NEWTON:
@@ -237,7 +232,31 @@ class MathSolverApp:
             self.__set_result(str(result))
         except Exception as e:
             self.__set_result("Не удалось решить систему")
-            # print(e)
+            return
+
+        # Рисуем график
+        try:
+            x = np.linspace(result.root_x - 3, result.root_x + 3, 400)
+            y = np.linspace(result.root_y - 3, result.root_y + 3, 400)
+            X, Y = np.meshgrid(x, y)
+
+            Z1 = self.chosen_system.f1(X, Y)
+            Z2 = self.chosen_system.f2(X, Y)
+
+            self.ax.clear()
+            self.ax.contour(X, Y, Z1, levels=[0], colors="blue")
+            self.ax.contour(X, Y, Z2, levels=[0], colors="yellow")
+            self.ax.scatter(result.root_x, result.root_y, color="red", s=20, zorder=3)
+
+            # self.ax.relim()  # Пересчет границ данных
+            # self.ax.autoscale()  # Автоматическое масштабирование осей
+            self.ax.grid(True)
+
+            self.ax.set_title("График функции")
+            self.canvas.draw()
+        except Exception:
+            self.__set_result("Не удалось отрисовать график")
+            return
 
     def __set_result(self, message: str) -> None:
         self.result_label.config(text=MathSolverApp.__RESULT_PREFIX + message)
