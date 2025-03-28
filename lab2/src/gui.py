@@ -1,11 +1,10 @@
 import tkinter as tk
 from decimal import getcontext
-from tkinter import ttk
+from tkinter import filedialog, ttk
 from typing import Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Converters
 from converters.dec import convert2decimal
@@ -16,6 +15,7 @@ from equation.data import equation_methods, equations
 from equation.methods import ChordMethod, EquationNewtonMethod, SimpleIterationsMethod
 from equation.methods_enum import EquationMethod
 from equation.model import Equation
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # System
 from system.data import system_methods, systems
@@ -96,13 +96,13 @@ class MathSolverApp:
         self.equation_precision = ttk.Entry(self.equation_frame)
         self.equation_precision.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
+        # Кнопка загрузки системы из файла
+        self.solve_button = ttk.Button(self.equation_frame, text="Открыть файл", command=self.__load_equation_from_file)
+        self.solve_button.grid(row=5, column=0, ipadx=70, columnspan=1, pady=10)
+
         # Кнопка решения
-        self.solve_button = ttk.Button(
-            self.equation_frame,
-            text="Решить",
-            command=self.__solve_equation,
-        )
-        self.solve_button.grid(row=5, column=0, ipadx=70, columnspan=2, pady=10)
+        self.solve_button = ttk.Button(self.equation_frame, text="Решить", command=self.__solve_equation)
+        self.solve_button.grid(row=5, column=1, ipadx=70, columnspan=1, pady=10)
 
     def __init_system_tab(self):
         # Выбор уравнения
@@ -134,9 +134,17 @@ class MathSolverApp:
         self.system_precision = ttk.Entry(self.system_frame)
         self.system_precision.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
+        # Кнопка загрузки параметров из файла
+        self.solve_system_button = ttk.Button(
+            self.system_frame,
+            text="Открыть файл",
+            command=self.__load_system_from_file,
+        )
+        self.solve_system_button.grid(row=5, column=0, ipadx=70, columnspan=1, pady=10)
+
         # Кнопка решения для системы
         self.solve_system_button = ttk.Button(self.system_frame, text="Решить", command=self.__solve_system)
-        self.solve_system_button.grid(row=5, column=0, ipadx=70, columnspan=2, pady=10)
+        self.solve_system_button.grid(row=5, column=1, ipadx=70, columnspan=1, pady=10)
 
     def __solve_equation(self):
         # Получить значения из полей ввода
@@ -260,6 +268,8 @@ class MathSolverApp:
 
     def __set_result(self, message: str) -> None:
         self.result_label.config(text=MathSolverApp.__RESULT_PREFIX + message)
+        with open("result.txt", "w") as f:
+            f.write(message)
 
     def __on_equation_select(self, event) -> None:
         selected_index = self.equation_combobox.current()
@@ -280,6 +290,76 @@ class MathSolverApp:
         selected_index = self.system_method_combobox.current()
         if selected_index >= 0:
             self.chosen_system_method = system_methods[selected_index]
+
+    def __load_equation_from_file(self):
+        filepath = filedialog.askopenfilename()
+        try:
+            if filepath != "":
+                with open(filepath, "r") as file:
+                    data = file.readlines()
+        except FileNotFoundError:
+            self.__set_result("Файл не найден")
+            return
+        except PermissionError:
+            self.__set_result("Нет доступа к файлу")
+            return
+
+        try:
+            equation_number = int(data[0])
+            self.equation_combobox.current(equation_number - 1)
+            self.__on_equation_select(None)
+
+            equation_method_number = int(data[1])
+            self.equation_method_combobox.current(equation_method_number - 1)
+            self.__on_equation_method_select(None)
+
+            self.left_bound.delete(0, tk.END)
+            self.left_bound.insert(0, data[2].strip())
+
+            self.right_bound.delete(0, tk.END)
+            self.right_bound.insert(0, data[3].strip())
+
+            self.equation_precision.delete(0, tk.END)
+            self.equation_precision.insert(0, data[4].strip())
+
+        except Exception as e:
+            self.__set_result("Неверный формат файла")
+            return
+
+    def __load_system_from_file(self):
+        filepath = filedialog.askopenfilename()
+        try:
+            if filepath != "":
+                with open(filepath, "r") as file:
+                    data = file.readlines()
+        except FileNotFoundError:
+            self.__set_result("Файл не найден")
+            return
+        except PermissionError:
+            self.__set_result("Нет доступа к файлу")
+            return
+
+        try:
+            system_number = int(data[0])
+            self.system_combobox.current(system_number - 1)
+            self.__on_system_select(None)
+
+            system_method_number = int(data[1])
+            self.system_method_combobox.current(system_method_number - 1)
+            self.__on_system_method_select(None)
+
+            self.initial_x.delete(0, tk.END)
+            self.initial_x.insert(0, data[2].strip())
+
+            self.initial_y.delete(0, tk.END)
+            self.initial_y.insert(0, data[3].strip())
+
+            self.system_precision.delete(0, tk.END)
+            self.system_precision.insert(0, data[4].strip())
+
+        except Exception as e:
+            self.__set_result("Неверный формат файла")
+            return
 
 
 if __name__ == "__main__":

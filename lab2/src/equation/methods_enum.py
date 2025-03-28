@@ -6,5 +6,5 @@ class EquationMethod(Enum):
     NEWTON = "Метод Ньютона"
     SIMPLE_ITERATIONS = "Метод простых итераций"
 
-    def __repr__(self):
+    def __str__(self):
         return f"{self.value}"
