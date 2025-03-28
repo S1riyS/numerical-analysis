@@ -1,0 +1,8 @@
+{
+    "function": "(x-1)^2/((2*x-2))",
+    "left": 0,
+    "right": 1,
+    "epsilon": 0.001,
+    "method": "rectangle",
+    "rect-mode": "right"
+}

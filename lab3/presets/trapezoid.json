@@ -1,0 +1,7 @@
+{
+    "function": "x**2 - sin(x) + 2",
+    "left": 2,
+    "right": 3,
+    "epsilon": 0.01,
+    "method": "trapezoid"
+}

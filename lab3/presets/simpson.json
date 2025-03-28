@@ -1,0 +1,7 @@
+{
+    "function": "x**2 - sin(x) + 2",
+    "left": 1,
+    "right": 2,
+    "epsilon": 0.01,
+    "method": "simpson"
+}

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "lab3"
+version = "0.1.0"
+description = "Numerical Analysis - Lab 3"
+authors = ["Kirill Ankudinov <kirill.ankudinov.94@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sympy = "^1.13.3"
+click = "^8.1.8"
+numpy = "^2.2.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+mypy_path = "src"
+explicit_package_bases = true
+strict = true
+disallow_untyped_calls = false
