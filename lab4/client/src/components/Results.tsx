@@ -1,7 +1,8 @@
 // src/components/Results.tsx
 import React from 'react';
 import GraphCard from './GraphCard';
-import { ApiResponse, Point } from '../api/types';
+import { ApiResponse, Point } from 'api/types';
+import styles from './Results.module.css';
 
 interface ResultsProps {
   results: ApiResponse | null;
@@ -11,17 +12,21 @@ interface ResultsProps {
 const Results: React.FC<ResultsProps> = ({ results, points }) => {
   if (!results) return null;
 
+  // Разбиваем результаты на пары для сетки
+  const resultPairs = [];
+  for (let i = 0; i < results.results.length; i += 2) {
+    resultPairs.push(results.results.slice(i, i + 2));
+  }
+
   return (
-    <div className="results-section">
-      <h2>Approximation Results</h2>
-      <div className="graphs-container">
-        {results.results.map((result, index) => (
-          <GraphCard 
-            key={result.type_} 
-            result={result} 
-            points={points} 
-            index={index} 
-          />
+    <div className={styles.resultsSection}>
+      <h2 className={styles.sectionTitle}>Approximation Results</h2>
+      
+      <div className={styles.gridContainer}>
+        {results.results.map((result) => (
+          <div key={result.type_} className={styles.gridItem}>
+            <GraphCard result={result} points={points} />
+          </div>
         ))}
       </div>
     </div>
