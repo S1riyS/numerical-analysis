@@ -32,8 +32,8 @@ class QuadraticMethod(IMethod):
 
         a, b, c = np.linalg.solve(A, B)
 
-        # f(x) = ax^2 + bx + c
-        result_function = lambda x: a * x**2 + b * x + c
+        # f(x) = a + bx + cx^2
+        result_function = lambda x: a + b * x + c * x**2
 
         return ApproximationResult(
             result_function,
