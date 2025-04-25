@@ -18,13 +18,13 @@ class LinearMethod(IMethod):
         sy = sum(self.ys)
         sxy = sum(x * y for x, y in zip(self.xs, self.ys))
 
-        A = np.array([[sxx, sx], [sx, self.n]])
-        B = np.array([sxy, sy])
+        A = np.array([[self.n, sx], [sx, sxx]])
+        B = np.array([sy, sxy])
 
         a, b = np.linalg.solve(A, B)
 
-        # f(x) = ax + b
-        result_function = lambda x: a * x + b
+        # f(x) = a + bx
+        result_function = lambda x: a + b * x
 
         pearson_correlation = compute_pearson_correlation(self.xs, self.ys)
         return ApproximationResult(
