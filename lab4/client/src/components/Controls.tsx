@@ -1,5 +1,6 @@
 // src/components/Controls.tsx
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, forwardRef } from 'react';
+import styles from './Controls.module.css';
 
 interface ControlsProps {
   onAddPoint: () => void;
@@ -12,7 +13,7 @@ interface ControlsProps {
   loading: boolean;
 }
 
-const Controls: React.FC<ControlsProps> = ({
+const Controls = forwardRef<HTMLInputElement, ControlsProps>(({
   onAddPoint,
   onClearAll,
   onFileUpload,
@@ -21,30 +22,65 @@ const Controls: React.FC<ControlsProps> = ({
   pointsCount,
   hasResults,
   loading,
-}) => (
-  <div className="controls">
-    <button onClick={onAddPoint} disabled={pointsCount >= 12}>
-      Add Point
-    </button>
-    <button onClick={onClearAll}>Clear All</button>
-    <div className="file-upload">
-      <label>
-        Load from File
-        <input
-          type="file"
-          accept=".txt,.csv"
-          onChange={onFileUpload}
-          style={{ display: 'none' }}
-        />
-      </label>
+}, ref) => (
+  <div className={styles.container}>
+    {/* Row 1: Add Point and Clear All */}
+    <div className={styles.buttonRow}>
+      <button 
+        className={`${styles.btn} ${styles.primary}`} 
+        onClick={onAddPoint} 
+        disabled={pointsCount >= 12}
+      >
+        Add Point
+      </button>
+      <button 
+        className={`${styles.btn} ${styles.warning}`} 
+        onClick={onClearAll}
+      >
+        Clear All
+      </button>
     </div>
-    <button onClick={onSubmit} disabled={loading}>
-      {loading ? 'Processing...' : 'Calculate Approximation'}
+
+    {/* Row 2: File Operations */}
+    <div className={styles.buttonRow}>
+    <button className={`${styles.btn} ${styles.fileUpload}`}>
+      Load from File
+      <input
+        type="file"
+        accept=".txt,.csv"
+        onChange={onFileUpload}
+        className={styles.fileInput}
+        ref={ref}
+      />
     </button>
-    {hasResults && (
-      <button onClick={onSave}>Save Results</button>
-    )}
+      {hasResults && (
+        <button 
+          className={`${styles.btn} ${styles.success}`} 
+          onClick={onSave}
+        >
+          Save Results
+        </button>
+      )}
+    </div>
+
+    {/* Row 3: Calculate Approximation */}
+    <div className={styles.buttonRow}>
+      <button 
+        className={`${styles.btn} ${styles.submit}`} 
+        onClick={onSubmit} 
+        disabled={loading}
+      >
+        {loading ? (
+          <span className={styles.loading}>
+            <span className={styles.spinner}></span>
+            Processing...
+          </span>
+        ) : (
+          'Calculate Approximation'
+        )}
+      </button>
+    </div>
   </div>
-);
+));
 
 export default Controls;

@@ -1,6 +1,7 @@
 // src/components/PointInput.tsx
 import React from 'react';
 import { Point } from '../api/types';
+import styles from './PointInput.module.css';
 
 interface PointInputProps {
   point: Point;
@@ -17,14 +18,15 @@ const PointInput: React.FC<PointInputProps> = ({
   onRemove, 
   showRemove 
 }) => (
-  <div className="point-input">
-    <span>Point {index + 1}:</span>
+  <div className={styles.pointInput}>
+    <span className={styles.pointLabel}>Point {index + 1}:</span>
     <input
       type="number"
       placeholder="X"
       value={point.x}
       onChange={(e) => onChange(index, 'x', e.target.value)}
       step="any"
+      className={styles.coordInput}
     />
     <input
       type="number"
@@ -32,9 +34,10 @@ const PointInput: React.FC<PointInputProps> = ({
       value={point.y}
       onChange={(e) => onChange(index, 'y', e.target.value)}
       step="any"
+      className={styles.coordInput}
     />
     {showRemove && (
-      <button onClick={() => onRemove(index)} className="remove-btn">
+      <button onClick={() => onRemove(index)} className={styles.removeBtn}>
         ×
       </button>
     )}

@@ -1,11 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ApproximationResult, Point } from '../api/types';
+import { ApproximationResult, Point } from 'api/types';
+
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
+import { capitalize } from 'utils/strings';
 
 import styles from './GraphCard.module.css'; // New stylesheet
 
-const GraphCard: React.FC<{ result: ApproximationResult; points: Point[] }> = ({ 
+interface GraphCardProps {
+  result: ApproximationResult;
+  points: Point[];
+  isBest: boolean;
+}
+
+const GraphCard: React.FC<GraphCardProps> = ({ 
   result, 
-  points 
+  points,
+  isBest 
 }) => {
   const graphRef = useRef<HTMLDivElement>(null);
   const [graphError, setGraphError] = useState(false);
@@ -13,7 +24,7 @@ const GraphCard: React.FC<{ result: ApproximationResult; points: Point[] }> = ({
   const calculatorRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!graphRef.current) return;
+    if (!graphRef.current || !result.success || !result.data) return;
 
     const loadDesmos = () => {
       // Check if script is already loaded or loading
@@ -131,23 +142,33 @@ const GraphCard: React.FC<{ result: ApproximationResult; points: Point[] }> = ({
   }, [result]);
 
   const getFunctionExpression = (result: ApproximationResult): string | null => {
+    if (!result.success || !result.data) return null;
+    
     const params = result.data.parameters;
     switch (result.type_) {
-      case 'linear': return `y=${params.a} + ${params.b}x`;
-      case 'quadratic': return `y=${params.a} + ${params.b}x + ${params.c}x^2`;
-      case 'cubic': return `y=${params.a} + ${params.b}x + ${params.c}x^2 + ${params.d}x^3`;
-      case 'exponential': return `y=${params.a}e^{${params.b}x}`;
-      case 'logarithmic': return `y=(${params.b})*\\ln(x) + (${params.a})`;
-      case 'power': return `y=${params.a}x^{${params.b}}`;
+      case 'linear': return `${params.a} + ${params.b}x`;
+      case 'quadratic': return `${params.a} + ${params.b}x + ${params.c}x^2`;
+      case 'cubic': return `${params.a} + ${params.b}x + ${params.c}x^2 + ${params.d}x^3`;
+      case 'exponential': return `${params.a}e^{${params.b}x}`;
+      case 'logarithmic': return `(${params.b})\\ln(x) + (${params.a})`;
+      case 'power': return `${params.a}x^{${params.b}}`;
       default: return null;
     }
   };
 
-
   return (
     <div className={styles['graph-card']}>
-      <h3>{result.type_} Function</h3>
-      {graphError ? (
+      <h3>{isBest && '👑'} {capitalize(result.type_)} function</h3>
+      
+      {!result.success ? (
+        <div className={styles['graph-error']}>
+          {result.message || `Failed to calculate ${result.type_} approximation`}
+        </div>
+      ) : !result.data ? (
+        <div className={styles['graph-error']}>
+          No data available for this approximation
+        </div>
+      ) : graphError ? (
         <div className={styles['graph-error']}>
           Failed to load graph visualization
         </div>
@@ -157,25 +178,33 @@ const GraphCard: React.FC<{ result: ApproximationResult; points: Point[] }> = ({
           className={styles['desmos-graph-container']}
         />
       )}
-      <div className="parameters">
-      <h4>Parameters:</h4>
-      <ul>
-        {Object.entries(result.data.parameters).map(([key, value]) => (
-          <li key={key}>
-            <strong>{key}:</strong> {value.toFixed(6)}
-          </li>
-        ))}
-      </ul>
-      <h4>Quality Metrics:</h4>
-      <ul>
-        <li><strong>Deviation:</strong> {result.data.measure_of_deviation.toFixed(6)}</li>
-        <li><strong>MSE:</strong> {result.data.mse.toFixed(6)}</li>
-        <li><strong>R²:</strong> {result.data.coefficient_of_determination.toFixed(6)}</li>
-      </ul>
-      <div className="function-expression">
-        <strong>Function:</strong> {getFunctionExpression(result)}
-      </div>
-      </div>
+      
+      {result.success && result.data && (
+        <div className="parameters">
+          <h4>Parameters:</h4>
+          <ul>
+            {Object.entries(result.data.parameters).map(([key, value]) => (
+              <li key={key}>
+                <strong>{key}:</strong> {value.toFixed(6)}
+              </li>
+            ))}
+          </ul>
+          <h4>Quality Metrics:</h4>
+          <ul>
+            <li><strong>Deviation:</strong> {result.data.measure_of_deviation.toFixed(6)}</li>
+            <li><strong>MSE:</strong> {result.data.mse.toFixed(6)}</li>
+            <li><strong>R²:</strong> {result.data.coefficient_of_determination.toFixed(6)}</li>
+          </ul>
+          <div className="function-expression">
+            <strong>Function:</strong> {' '}
+            {getFunctionExpression(result) ? (
+              <InlineMath math={'f(x) = ' + getFunctionExpression(result)} />
+            ) : (
+              'N/A'
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

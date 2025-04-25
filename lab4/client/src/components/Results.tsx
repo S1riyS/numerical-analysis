@@ -12,11 +12,16 @@ interface ResultsProps {
 const Results: React.FC<ResultsProps> = ({ results, points }) => {
   if (!results) return null;
 
-  // Разбиваем результаты на пары для сетки
-  const resultPairs = [];
-  for (let i = 0; i < results.results.length; i += 2) {
-    resultPairs.push(results.results.slice(i, i + 2));
-  }
+  // Find the best approximation (lowest MSE)
+  let bestType: string | null = null;
+  let lowestMSE = Infinity;
+  
+  results.results.forEach(result => {
+    if (result.success && result.data && result.data.mse < lowestMSE) {
+      lowestMSE = result.data.mse;
+      bestType = result.type_;
+    }
+  });
 
   return (
     <div className={styles.resultsSection}>
@@ -25,7 +30,11 @@ const Results: React.FC<ResultsProps> = ({ results, points }) => {
       <div className={styles.gridContainer}>
         {results.results.map((result) => (
           <div key={result.type_} className={styles.gridItem}>
-            <GraphCard result={result} points={points} />
+            <GraphCard 
+              result={result} 
+              points={points} 
+              isBest={result.type_ === bestType && result.success}
+            />
           </div>
         ))}
       </div>

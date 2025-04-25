@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PointInput from 'components/PointInput';
 import Controls from 'components/Controls';
 import Results from 'components/Results';
@@ -14,6 +14,7 @@ const ApproximationPage: React.FC = () => {
   const [results, setResults] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handlePointChange = (index: number, field: 'x' | 'y', value: string) => {
     const newPoints = [...points];
@@ -39,6 +40,10 @@ const ApproximationPage: React.FC = () => {
     setPoints(points.map(() => ({ x: '', y: '' })));
     setResults(null);
     setError(null);
+    // Clear the file input value
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,6 +175,7 @@ const ApproximationPage: React.FC = () => {
         </div>
         
         <Controls
+          ref={fileInputRef}
           onAddPoint={addPoint}
           onClearAll={clearAll}
           onFileUpload={handleFileUpload}
