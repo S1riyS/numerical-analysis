@@ -3,6 +3,7 @@ from libs.approximation.methods.core.enums import ApproximationType
 from libs.approximation.methods.core.method import IMethod
 from libs.approximation.models.result import ApproximationResult
 from libs.approximation.models.validation import ValidationResult
+from libs.approximation.utils.system import solve_system
 
 
 class QuadraticMethod(IMethod):
@@ -30,7 +31,7 @@ class QuadraticMethod(IMethod):
         )
         B = np.array([sy, sxy, sxxy])
 
-        a, b, c = np.linalg.solve(A, B)
+        a, b, c = solve_system(A, B)
 
         # f(x) = a + bx + cx^2
         result_function = lambda x: a + b * x + c * x**2

@@ -24,6 +24,7 @@ class ExponentialMethod(IMethod):
         linear_result = linear_approximation.run()
 
         a = math.exp(linear_result.parameters["a"])
+        a = round(a, 5)
         b = linear_result.parameters["b"]
 
         # f(x) = a * e^(bx)

@@ -4,6 +4,7 @@ from libs.approximation.methods.core.method import IMethod
 from libs.approximation.models.result import ApproximationResult
 from libs.approximation.models.validation import ValidationResult
 from libs.approximation.utils.statistic import compute_pearson_correlation
+from libs.approximation.utils.system import solve_system
 
 
 class LinearMethod(IMethod):
@@ -21,7 +22,7 @@ class LinearMethod(IMethod):
         A = np.array([[self.n, sx], [sx, sxx]])
         B = np.array([sy, sxy])
 
-        a, b = np.linalg.solve(A, B)
+        a, b = solve_system(A, B)
 
         # f(x) = a + bx
         result_function = lambda x: a + b * x

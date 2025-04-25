@@ -3,6 +3,7 @@ from libs.approximation.methods.core.enums import ApproximationType
 from libs.approximation.methods.core.method import IMethod
 from libs.approximation.models.result import ApproximationResult
 from libs.approximation.models.validation import ValidationResult
+from libs.approximation.utils.system import solve_system
 
 
 class CubicMethod(IMethod):
@@ -34,7 +35,7 @@ class CubicMethod(IMethod):
         )
         B = np.array([sy, sxy, sxxy, sxxxy])
 
-        a, b, c, d = np.linalg.solve(A, B)
+        a, b, c, d = solve_system(A, B)
 
         # f(x) = a + bx + cx^2 + dx^3
         result_function = lambda x: a + b * x + c * x**2 + d * x**3

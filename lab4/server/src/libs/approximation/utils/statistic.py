@@ -16,8 +16,8 @@ def compute_coefficient_of_determination(xs: List[float], ys: List[float], fi: C
     n = len(xs)
     avg_fi = sum(fi(x) for x in xs) / n
 
-    numerator = sum((y - avg_fi) ** 2 for y in ys)
-    denominator = sum((y - fi(x)) ** 2 for x, y in zip(xs, ys))
+    numerator = sum((y - fi(x)) ** 2 for x, y in zip(xs, ys))
+    denominator = sum((y - avg_fi) ** 2 for y in ys)
 
     # If fi is equivalent to actual function: R^2 = 1
     if denominator == 0:
