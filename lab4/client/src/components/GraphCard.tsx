@@ -25,7 +25,7 @@ const GraphCard: React.FC<{ result: ApproximationResult; points: Point[] }> = ({
       }
 
       const script = document.createElement('script');
-      script.src = 'https://www.desmos.com/api/v1.7/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
+      script.src = 'https://www.desmos.com/api/v1.10/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
       script.async = true;
       script.id = 'desmos-script'; // Add an ID for easy identification
       
@@ -128,16 +128,16 @@ const GraphCard: React.FC<{ result: ApproximationResult; points: Point[] }> = ({
         desmosScriptRef.current = null;
       }
     };
-  }, [result, points]);
+  }, [result]);
 
   const getFunctionExpression = (result: ApproximationResult): string | null => {
     const params = result.data.parameters;
     switch (result.type_) {
-      case 'linear': return `y=${params.a}x+${params.b}`;
-      case 'quadratic': return `y=${params.a}+${params.b}x+${params.c}x^2`;
-      case 'cubic': return `y=${params.a}+${params.b}x+${params.c}x^2+${params.d}x^3`;
+      case 'linear': return `y=${params.a} + ${params.b}x`;
+      case 'quadratic': return `y=${params.a} + ${params.b}x + ${params.c}x^2`;
+      case 'cubic': return `y=${params.a} + ${params.b}x + ${params.c}x^2 + ${params.d}x^3`;
       case 'exponential': return `y=${params.a}e^{${params.b}x}`;
-      case 'logarithmic': return `y=${params.a}+${params.b}*ln(x)`;
+      case 'logarithmic': return `y=(${params.b})*\\ln(x) + (${params.a})`;
       case 'power': return `y=${params.a}x^{${params.b}}`;
       default: return null;
     }
