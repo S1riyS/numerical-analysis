@@ -22,6 +22,13 @@ class LinearMethod(IMethod):
         A = np.array([[self.n, sx], [sx, sxx]])
         B = np.array([sy, sxy])
 
+        print("DEBUG")
+        print(f"n: {self.n}")
+        print(f"sx: {sx}")
+        print(f"sxx: {sxx}")
+        print(f"sy: {sy}")
+        print(f"sxy: {sxy}")
+
         a, b = solve_system(A, B)
 
         # f(x) = a + bx
