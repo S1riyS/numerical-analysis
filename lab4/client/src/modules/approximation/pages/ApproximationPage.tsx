@@ -1,4 +1,4 @@
-import { AnalysisResponse } from "@approximation/api/types";
+import { ApproximationResponse } from "@approximation/api/types";
 import { ResultsView, SubmitApproximationButton } from "@approximation/components";
 import { PointsManager } from "@common/components/PointsManager";
 import { Point } from "@common/types";
@@ -7,10 +7,10 @@ import { Alert, Col, Container, Row } from "react-bootstrap";
 
 const ApproximationPage: React.FC = () => {
   const [points, setPoints] = useState<Point[]>([]);
-  const [results, setResults] = useState<AnalysisResponse | null>(null);
+  const [results, setResults] = useState<ApproximationResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleAnalysisComplete = (results: AnalysisResponse) => {
+  const handleAnalysisComplete = (results: ApproximationResponse) => {
     setResults(results);
     setError(null); // Clear any previous errors on success
   };

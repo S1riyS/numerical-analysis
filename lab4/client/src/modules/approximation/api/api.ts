@@ -1,9 +1,9 @@
 
   import { Point } from "@common/types";
-  import { AnalysisResponse } from "./types";
+  import { ApproximationResponse } from "./types";
   
   export class ApiService {
-    static async analyzePoints(points: Point[]): Promise<AnalysisResponse> {
+    static async analyzePoints(points: Point[]): Promise<ApproximationResponse> {
       const xs = points.map(p => parseFloat(p.x));
       const ys = points.map(p => parseFloat(p.y));
   

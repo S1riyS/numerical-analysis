@@ -1,12 +1,12 @@
 import { ApiService } from '@approximation/api/api';
-import { AnalysisResponse } from '@approximation/api/types';
+import { ApproximationResponse } from '@approximation/api/types';
 import { Point } from '@common/types';
 import { useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 
 interface SubmitApproximationButtonProps {
   points: Point[];
-  onResults: (results: AnalysisResponse) => void;
+  onResults: (results: ApproximationResponse) => void;
   onError?: (error: string) => void;
 }
 
@@ -32,7 +32,7 @@ export const SubmitApproximationButton: React.FC<SubmitApproximationButtonProps>
   return (
     <div className="analysis-controller mt-3">
       <Button
-        variant="primary"
+        variant="success"
         onClick={handleAnalyze}
         disabled={isLoading}
       >
@@ -42,7 +42,7 @@ export const SubmitApproximationButton: React.FC<SubmitApproximationButtonProps>
             Анализ...
           </>
         ) : (
-          'Анализировать точки'
+          'Начать'
         )}
       </Button>
     </div>

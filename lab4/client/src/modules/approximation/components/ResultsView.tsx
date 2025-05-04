@@ -1,8 +1,8 @@
-import { AnalysisResponse } from '@approximation/api/types';
+import { ApproximationResponse } from '@approximation/api/types';
 import { Card, Tab, Tabs, Alert, Badge } from 'react-bootstrap';
 
 interface ResultsViewProps {
-  results: AnalysisResponse;
+  results: ApproximationResponse;
 }
 
 export const ResultsView: React.FC<ResultsViewProps> = ({ results }) => {
