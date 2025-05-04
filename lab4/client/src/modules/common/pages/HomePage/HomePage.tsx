@@ -1,4 +1,4 @@
-import styles from './HomePage.module.css';
+import { PointsManager } from '@common/components/PointsManager';
 import { LabCard } from '@common/components';
 
 const HomePage = () => {
@@ -11,9 +11,9 @@ const HomePage = () => {
   ];
 
   return (
-    <div className={styles.container}>
+    <div className="random">
       <h2>Лабораторные работы</h2>
-      <div className={styles.grid}>
+      <div className="random">
         {labWorks.map((work) => (
           <LabCard
             key={work.path}
@@ -23,6 +23,7 @@ const HomePage = () => {
           />
         ))}
       </div>
+      <PointsManager minPoints={8} maxPoints={12}></PointsManager>
     </div>
   );
 };

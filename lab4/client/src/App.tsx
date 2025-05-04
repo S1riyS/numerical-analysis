@@ -1,4 +1,6 @@
 import styles from './App.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { Header } from '@common/components';
 import AppRouter from '@common/utils/AppRouter';
 

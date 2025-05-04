@@ -1,2 +1,2 @@
-export * from './GraphCard/GraphCard';
-export * from './Results/Results';
+export * from './SubmitApproximationButton';
+export * from './ResultsView';

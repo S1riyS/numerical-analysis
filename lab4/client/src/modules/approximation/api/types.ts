@@ -1,26 +1,17 @@
-export interface ApiRequest {
-  xs: number[];
-  ys: number[];
-}
+import { FunctionType } from "@approximation/types";
 
-export interface FunctionParameters {
-  [key: string]: number;
-}
-
-export interface ApproximationData {
-  measure_of_deviation: number;
-  mse: number;
-  coefficient_of_determination: number;
-  parameters: FunctionParameters;
-}
-
-export interface ApproximationResult {
-  type_: string;
-  success: boolean;
-  message: string | null;
-  data: ApproximationData;
-}
-
-export interface ApiResponse {
-  results: ApproximationResult[];
-}
+export interface AnalysisResult {
+    type_: FunctionType;
+    success: boolean;
+    message: string | null;
+    data: {
+      measure_of_deviation?: number;
+      mse?: number;
+      coefficient_of_determination?: number;
+      parameters?: Record<string, number>;
+    } | null;
+  }
+  
+  export interface AnalysisResponse {
+    results: AnalysisResult[];
+  }
