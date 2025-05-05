@@ -13,9 +13,6 @@ MAX_ITERS = 10_000
 class SimpleIterationsMethod(IEquationMethod):
     name = "Метод простой итерации"
 
-    def __init__(self, equation: Equation, left: float, right: float, epsilon: float, decimal_places: int, log: bool):
-        super().__init__(equation, left, right, epsilon, decimal_places, log)
-
     def __get_phi(self) -> Math1DFunction:
         f = self.equation.function
 
@@ -62,12 +59,6 @@ class SimpleIterationsMethod(IEquationMethod):
 
             x_prev = x
             x = phi(x)
-
-            if self.log:
-                print(
-                    f"{iteration}: xk = {x_prev:.4f}, f(xk) = {f(x_prev)}, "
-                    f"xk+1 = 𝜑(𝑥𝑘) = {x:.4f}, |xk - xk+1| = {abs(x - x_prev):}"
-                )
 
             if abs(x - x_prev) <= self.epsilon and abs(f(x)) <= self.epsilon:
                 break

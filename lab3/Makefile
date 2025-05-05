@@ -21,7 +21,7 @@ trapezoid-json: # Run trapezoid method from json
 
 .PHONY: simpson-json
 simpson-json: # Run Simpson method from json
-	python3 $(MAIN_FILE) $(INTEGRAL_FROM_JSON) $(PRESETS)/trapezoid.json
+	python3 $(MAIN_FILE) $(INTEGRAL_FROM_JSON) $(PRESETS)/simpson.json
 
 .PHONY: discontinuity-json
 discontinuity-json: # Try evaluating integral with discontinuity

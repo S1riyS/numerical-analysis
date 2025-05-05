@@ -50,7 +50,7 @@ class IMethod(ABC):
 
     def __check_precision(self, previous_evaludation: float, current_evaludation: float) -> bool:
         """Implementation of Runge Rule (an empirical way to estimate the error)"""
-        delta: float = (previous_evaludation - current_evaludation) / (2**self.runge_k_const - 1)
+        delta: float = (previous_evaludation - current_evaludation) / (2**self.runge_k_const + 1)
         return abs(delta) < self.epsilon
 
     def __str__(self) -> str:

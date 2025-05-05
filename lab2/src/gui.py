@@ -1,7 +1,7 @@
 import tkinter as tk
 from decimal import getcontext
 from tkinter import filedialog, ttk
-from typing import Optional
+from typing import Literal, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -104,6 +104,12 @@ class MathSolverApp:
         self.solve_button = ttk.Button(self.equation_frame, text="Решить", command=self.__solve_equation)
         self.solve_button.grid(row=5, column=1, ipadx=70, columnspan=1, pady=10)
 
+        # Кнопка сохранения в файл
+        self.save_equation_button = ttk.Button(
+            self.equation_frame, text="Сохранить в файл", command=self.__save_result_to_file(tag="equation")
+        )
+        self.save_equation_button.grid(row=6, column=0, ipadx=70, columnspan=2, pady=5, sticky="ew")
+
     def __init_system_tab(self):
         # Выбор уравнения
         ttk.Label(self.system_frame, text="Система").grid(row=0, column=0, padx=5, pady=5, sticky="w")
@@ -135,16 +141,22 @@ class MathSolverApp:
         self.system_precision.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
         # Кнопка загрузки параметров из файла
-        self.solve_system_button = ttk.Button(
+        self.save_system_button = ttk.Button(
             self.system_frame,
             text="Открыть файл",
             command=self.__load_system_from_file,
         )
-        self.solve_system_button.grid(row=5, column=0, ipadx=70, columnspan=1, pady=10)
+        self.save_system_button.grid(row=5, column=0, ipadx=70, columnspan=1, pady=10)
 
         # Кнопка решения для системы
-        self.solve_system_button = ttk.Button(self.system_frame, text="Решить", command=self.__solve_system)
-        self.solve_system_button.grid(row=5, column=1, ipadx=70, columnspan=1, pady=10)
+        self.save_system_button = ttk.Button(self.system_frame, text="Решить", command=self.__solve_system)
+        self.save_system_button.grid(row=5, column=1, ipadx=70, columnspan=1, pady=10)
+
+        # Кнопка сохранения в файл
+        self.save_system_button = ttk.Button(
+            self.system_frame, text="Сохранить в файл", command=self.__save_result_to_file
+        )
+        self.save_system_button.grid(row=6, column=0, ipadx=70, columnspan=2, pady=5, sticky="ew")
 
     def __solve_equation(self):
         # Получить значения из полей ввода
@@ -170,8 +182,12 @@ class MathSolverApp:
 
             self.ax.clear()
 
-            self.ax.axhline(y=0, color="gray")
-            self.ax.axvline(x=0, color="gray")
+            if left <= 0 <= right:
+                self.ax.axvline(x=0, color="gray")
+
+            if min(y) <= 0 <= max(y):
+                self.ax.axhline(y=0, color="gray")
+
             self.ax.plot(x, y)
 
             self.ax.relim()  # Пересчет границ данных
@@ -187,11 +203,11 @@ class MathSolverApp:
         # Выбираем метод решения
         method = None
         if self.chosen_equation_method == EquationMethod.CHORD:
-            method = ChordMethod(self.chosen_equation, left, right, epsilon, 10, False)
+            method = ChordMethod(self.chosen_equation, left, right, epsilon, 10)
         elif self.chosen_equation_method == EquationMethod.NEWTON:
-            method = EquationNewtonMethod(self.chosen_equation, left, right, epsilon, 10, False)
+            method = EquationNewtonMethod(self.chosen_equation, left, right, epsilon, 10)
         elif self.chosen_equation_method == EquationMethod.SIMPLE_ITERATIONS:
-            method = SimpleIterationsMethod(self.chosen_equation, left, right, epsilon, 10, False)
+            method = SimpleIterationsMethod(self.chosen_equation, left, right, epsilon, 10)
 
         # Обновление результата
         if method is None:
@@ -256,8 +272,13 @@ class MathSolverApp:
             self.ax.contour(X, Y, Z2, levels=[0], colors="yellow")
             self.ax.scatter(result.root_x, result.root_y, color="red", s=20, zorder=3)
 
-            # self.ax.relim()  # Пересчет границ данных
-            # self.ax.autoscale()  # Автоматическое масштабирование осей
+            print(x[0], x[-1])
+            if min(x) <= 0 <= max(x):
+                self.ax.axvline(x=0, color="gray")
+
+            if min(y) <= 0 <= max(y):
+                self.ax.axhline(y=0, color="gray")
+
             self.ax.grid(True)
 
             self.ax.set_title("График функции")
@@ -268,8 +289,6 @@ class MathSolverApp:
 
     def __set_result(self, message: str) -> None:
         self.result_label.config(text=MathSolverApp.__RESULT_PREFIX + message)
-        with open("result.txt", "w") as f:
-            f.write(message)
 
     def __on_equation_select(self, event) -> None:
         selected_index = self.equation_combobox.current()
@@ -360,6 +379,34 @@ class MathSolverApp:
         except Exception as e:
             self.__set_result("Неверный формат файла")
             return
+
+    def __save_result_to_file(self, tag: Literal["equation", "system"]):
+        def f():
+            filepath = filedialog.asksaveasfilename(defaultextension=".txt")
+            try:
+                if filepath != "":
+                    with open(filepath, "w") as file:
+                        file.write("Входные данные:\n")
+                        if tag == "equation":
+                            file.write(f"Уравнение: {self.chosen_equation}\n")
+                            file.write(f"Метод: {self.chosen_equation_method}\n")
+                            file.write(f"Левая граница: {self.left_bound.get()}\n")
+                            file.write(f"Правая граница{self.right_bound.get()}\n")
+                            file.write(f"Точность: {self.equation_precision.get()}\n")
+                        elif tag == "system":
+                            file.write(f"Система: {self.chosen_system}\n")
+                            file.write(f"Метод: {self.chosen_system_method}\n")
+                            file.write(f"Начальное приближение x{self.initial_x.get()}\n")
+                            file.write(f"Начальное приближение y{self.initial_y.get()}\n")
+                            file.write(f"Точность: {self.system_precision.get()}\n")
+
+                        file.write("\n")
+                        file.write(self.result_label["text"])
+            except PermissionError:
+                self.__set_result("Нет доступа к файлу")
+                return
+
+        return f
 
 
 if __name__ == "__main__":

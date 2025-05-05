@@ -8,8 +8,7 @@ from equation.result import EquationResult  # type: ignore
 class IEquationMethod(ABC):
     name = None
 
-    def __init__(self, equation: Equation, left: float, right: float, epsilon: float, decimal_places: int, log: bool):
-        self.log = log
+    def __init__(self, equation: Equation, left: float, right: float, epsilon: float, decimal_places: int):
         self.decimal_places = decimal_places
         self.epsilon = epsilon
         self.right = right
