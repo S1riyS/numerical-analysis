@@ -186,20 +186,8 @@ export const FunctionPlot: React.FC<FunctionPlotProps> = ({
                 chartInstance.current = null;
             }
         };
-    }, [
-        func,
-        minX,
-        maxX,
-        steps,
-        points,
-        title,
-        xAxisLabel,
-        yAxisLabel,
-        lineColor,
-        pointColor,
-        backgroundColor,
-        gridLines,
-    ]);
+    }, [func]
+);
 
     return (
         <div style={{ width, height }}>
