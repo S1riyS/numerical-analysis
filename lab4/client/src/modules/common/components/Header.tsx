@@ -9,7 +9,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ author, group }) => {
   return (
     <Navbar className="bg-body-tertiary mb-3">
-      <Container>
+      <Container fluid className="px-4">
         <Navbar.Brand href="/">Вычислительная математика</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">

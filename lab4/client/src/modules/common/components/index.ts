@@ -1,4 +1,4 @@
-export * from './Header/Header';
+export * from './Header';
 export * from './LabCard/LabCard';
 export * from './PointInput';
 export * from './PointsControls';

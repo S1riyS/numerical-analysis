@@ -66,19 +66,32 @@ export const FunctionPlot: React.FC<FunctionPlotProps> = ({
     const chartRef = useRef<HTMLCanvasElement>(null);
     const chartInstance = useRef<Chart<'line' | 'scatter', { x: number; y: number }[], unknown> | null>(null);
 
-    useEffect(() => {
-        if (!chartRef.current) return;
-
-        // Generate function data
+    /**
+     * Generates an array of points representing the graph of a given function.
+     * The x-values are distributed evenly between minX and maxX.
+     * 
+     * @param f - The mathematical function to plot, which takes a number as input and returns a number.
+     * @returns An array of objects, each containing x and y properties, representing points on the function graph.
+     */
+    function getFunctionData(f: (x: number) => number): { x: number; y: number }[] {
         const functionData: { x: number; y: number }[] = [];
         const stepSize = (maxX - minX) / steps
         for (let i = 0; i <= steps; i += 1) {
             const xFull = minX + i * stepSize
             functionData.push({
                 x: parseFloat(xFull.toFixed(4)),
-                y: parseFloat(func(xFull).toFixed(4)),
+                y: parseFloat(f(xFull).toFixed(4)),
             });
         }
+
+        return functionData
+    }
+
+    useEffect(() => {
+        if (!chartRef.current) return;
+
+        // Generate function data
+        const functionData = getFunctionData(func)
 
         // Convert points to numbers
         const pointData: { x: number; y: number }[] = points.map((p) => ({

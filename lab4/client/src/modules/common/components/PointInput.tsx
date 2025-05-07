@@ -1,5 +1,7 @@
 import { Point } from '@common/types';
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import { FaRegTrashCan } from 'react-icons/fa6';
+import { MdDeleteForever } from 'react-icons/md';
 
 interface PointInputProps {
   point: Point;
@@ -18,7 +20,7 @@ export const PointInput: React.FC<PointInputProps> = ({
 }) => {
   return (
     <Row className="mb-1 align-items-center g-1">
-      <Col md={4}>
+      <Col md={5}>
         <Form.Control
           type="number"
           step={0.1}
@@ -27,7 +29,7 @@ export const PointInput: React.FC<PointInputProps> = ({
           placeholder="X"
         />
       </Col>
-      <Col md={4}>
+      <Col md={5}>
         <Form.Control
           type="number"
           step={0.1}
@@ -36,14 +38,14 @@ export const PointInput: React.FC<PointInputProps> = ({
           placeholder="Y"
         />
       </Col>
-      <Col md={4}>
+      <Col md={2}>
         <Button
           variant="outline-danger"
           onClick={onRemove}
           disabled={!canRemove}
           className="w-100"
         >
-          Удалить
+          <FaRegTrashCan />
         </Button>
       </Col>
     </Row>
