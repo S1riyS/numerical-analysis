@@ -23,7 +23,6 @@ const HomePage = () => {
           />
         ))}
       </div>
-      <PointsManager minPoints={8} maxPoints={12}></PointsManager>
     </div>
   );
 };

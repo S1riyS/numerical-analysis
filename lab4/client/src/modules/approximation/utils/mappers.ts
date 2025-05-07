@@ -61,9 +61,9 @@ export function typeToName(type_: FunctionType): string {
         case FunctionType.CUBIC:
             return "Кубическая"
         case FunctionType.EXPONENTIAL:
-            return "Экспоненциальная"
+            return "Экспонента"
         case FunctionType.LOGARITHMIC:
-            return "Лоагрифмическая"
+            return "Логарифм"
         case FunctionType.POWER:
             return "Степенная"
     }
