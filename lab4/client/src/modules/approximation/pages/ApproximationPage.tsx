@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Alert, Col, Container, Row } from "react-bootstrap";
 
 import 'katex/dist/katex.min.css';
+import { PiMathOperations } from "react-icons/pi";
 
 const ApproximationPage: React.FC = () => {
   const [points, setPoints] = useState<Point[]>([]);
@@ -44,10 +45,10 @@ const ApproximationPage: React.FC = () => {
           {results ? (
             <ResultsView results={results} points={points} />
           ) : (
-            <div className="placeholder-results">
-              <h4>Результаты анализа</h4>
-              <p>Данные появятся здесь после выполнения анализа</p>
-            </div>
+            <Container className="d-flex justify-content-center align-items-center flex-column" style={{ height: '100%' }}>
+              <Row><PiMathOperations  size={128}/></Row>
+              <Row><i className="mt-3">Пока что здесь ничего нет...</i></Row>
+            </Container>
           )}
         </Col>
       </Row>
