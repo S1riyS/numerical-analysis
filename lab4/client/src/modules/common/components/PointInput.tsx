@@ -17,7 +17,7 @@ export const PointInput: React.FC<PointInputProps> = ({
   canRemove
 }) => {
   return (
-    <Row className="mb-3 align-items-center g-2">
+    <Row className="mb-1 align-items-center g-1">
       <Col md={4}>
         <Form.Control
           type="number"
@@ -37,9 +37,9 @@ export const PointInput: React.FC<PointInputProps> = ({
         />
       </Col>
       <Col md={4}>
-        <Button 
-          variant="outline-danger" 
-          onClick={onRemove} 
+        <Button
+          variant="outline-danger"
+          onClick={onRemove}
           disabled={!canRemove}
           className="w-100"
         >

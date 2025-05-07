@@ -5,6 +5,8 @@ import { Point } from "@common/types";
 import { useState } from "react";
 import { Alert, Col, Container, Row } from "react-bootstrap";
 
+import 'katex/dist/katex.min.css';
+
 const ApproximationPage: React.FC = () => {
   const [points, setPoints] = useState<Point[]>([]);
   const [results, setResults] = useState<ApproximationResponse | null>(null);
@@ -24,14 +26,14 @@ const ApproximationPage: React.FC = () => {
     <Container fluid className="px-4">
       <Row>
         <Col md={6} lg={4}>
-          <PointsManager 
-            minPoints={8} 
-            maxPoints={12} 
+          <PointsManager
+            minPoints={8}
+            maxPoints={12}
             onPointsChange={setPoints}
           >
           </PointsManager>
           <hr />
-          <SubmitApproximationButton 
+          <SubmitApproximationButton
             points={points}
             onResults={handleAnalysisComplete}
             onError={handleAnalysisError}
@@ -40,7 +42,7 @@ const ApproximationPage: React.FC = () => {
         <Col md={6} lg={8}>
           {error && <Alert variant="danger">{error}</Alert>}
           {results ? (
-            <ResultsView results={results} />
+            <ResultsView results={results} points={points} />
           ) : (
             <div className="placeholder-results">
               <h4>Результаты анализа</h4>

@@ -7,9 +7,9 @@ import AppRouter from '@common/utils/AppRouter';
 function App() {
   return (
     <div className={styles.app}>
-        <AppRouter>
-          <Header author='Анкудинов Кирилл' group='P3218'/>
-        </AppRouter>
+      <AppRouter>
+        <Header author='Анкудинов Кирилл' group='P3218' />
+      </AppRouter>
     </div>
   );
 }

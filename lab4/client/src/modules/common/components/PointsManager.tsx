@@ -45,10 +45,10 @@ export const PointsManager: React.FC<PointsManagerProps> = ({
 
   const handleFileUpload = (data: Point[]) => {
     // Фильтрация и валидация загруженных точек
-    const validPoints = data.filter(item => 
-      typeof item.x === 'string' && typeof item.y === 'string'
+    const validPoints = data.filter(item =>
+      typeof item.x === 'number' && typeof item.y === 'number'
     ).slice(0, maxPoints);
-    
+
     if (validPoints.length >= minPoints) {
       updatePoints(validPoints);
     } else {
@@ -64,10 +64,6 @@ export const PointsManager: React.FC<PointsManagerProps> = ({
         onRemovePoint={handleRemovePoint}
         minPoints={minPoints}
       />
-      
-      <div className="mt-2 mb-2 text-muted">
-        Точки: {points.length} (min: {minPoints}, max: {maxPoints})
-      </div>
 
       <PointsControls
         onAddPoint={handleAddPoint}
@@ -75,6 +71,10 @@ export const PointsManager: React.FC<PointsManagerProps> = ({
         maxPoints={maxPoints}
         currentCount={points.length}
       />
+
+      <div className="mt-1 mb-1 text-muted">
+        Точки: {points.length} (min: {minPoints}, max: {maxPoints})
+      </div>
     </div>
   );
 };

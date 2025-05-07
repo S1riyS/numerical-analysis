@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Header.module.css';
+import { Container, Navbar } from 'react-bootstrap';
 
 interface HeaderProps {
   author?: string;
@@ -8,11 +8,16 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ author, group }) => {
   return (
-    <header className={styles.header}>
-      <div className={styles.content}>
-        <h1 className={styles.title}>Вычислительная математика</h1>
-        {author && <p className={styles.author}>{author} {group}</p>}
-      </div>
-    </header>
+    <Navbar className="bg-body-tertiary mb-3">
+      <Container>
+        <Navbar.Brand href="/">Вычислительная математика</Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+            {author} {group}
+          </Navbar.Text>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };

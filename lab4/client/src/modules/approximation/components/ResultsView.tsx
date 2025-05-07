@@ -1,16 +1,25 @@
 import { ApproximationResponse } from '@approximation/api/types';
-import { Card, Tab, Tabs, Alert, Badge } from 'react-bootstrap';
+import { resultToFunction, resultToLatex, typeToName } from '@approximation/utils/mappers';
+import { FunctionPlot } from '@common/components';
+import { Point } from '@common/types';
+import { Card, Tab, Tabs, Alert } from 'react-bootstrap';
+import { InlineMath } from 'react-katex';
 
 interface ResultsViewProps {
   results: ApproximationResponse;
+  points: Point[]
 }
 
-export const ResultsView: React.FC<ResultsViewProps> = ({ results }) => {
+export const ResultsView: React.FC<ResultsViewProps> = ({ results, points }) => {
+  const minX = Math.min(...points.map(point => point.x));
+  const maxX = Math.max(...points.map(point => point.x));
+  const padding = (maxX - minX) * 0.1
+
   return (
     <Card>
       <Card.Body>
         <Card.Title>Результаты анализа</Card.Title>
-        
+
         <Tabs defaultActiveKey="linear" className="mb-3">
           {results.results.map((result, index) => (
             <Tab
@@ -18,16 +27,20 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ results }) => {
               eventKey={result.type_}
               title={
                 <>
-                  {result.type_}
-                  {result.success && (
-                    <Badge bg="success" className="ms-2">✓</Badge>
-                  )}
+                  {typeToName(result.type_)}
                 </>
               }
             >
               {result.success ? (
                 <div className="mt-3">
+                  <FunctionPlot
+                    func={resultToFunction(result)}
+                    minX={minX - padding}
+                    maxX={maxX + padding}
+                    points={points}
+                  />
                   <h5>Параметры модели</h5>
+                  <InlineMath math={`f(x) = ${resultToLatex(result)}`}></InlineMath>
                   <ul>
                     {result.data?.parameters && Object.entries(result.data.parameters).map(([key, value]) => (
                       <li key={key}>
@@ -35,7 +48,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ results }) => {
                       </li>
                     ))}
                   </ul>
-                  
+
                   <h5 className="mt-3">Метрики качества</h5>
                   <ul>
                     <li><strong>MSE:</strong> {result.data?.mse?.toFixed(4)}</li>
