@@ -1,22 +1,35 @@
 import React from "react";
 
+import { Card } from "react-bootstrap";
+import { FaFlask } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 import styles from "./LabCard.module.css";
 
-// Assuming you have a corresponding CSS module
-
 interface LabCardProps {
   title: string;
+  labNumber: number;
   description: string;
   to: string;
 }
 
-export const LabCard: React.FC<LabCardProps> = ({ title, description, to }) => {
+export const LabCard: React.FC<LabCardProps> = ({
+  title,
+  description,
+  labNumber,
+  to,
+}) => {
   return (
-    <Link to={to} className={styles.card}>
-      <h3 className={styles.title}>{title}</h3>
-      <p className={styles.description}>{description}</p>
+    <Link to={to} className={styles.link}>
+      <Card className={styles.card}>
+        <Card.Header>
+          <FaFlask /> Лабораторная работа №{labNumber}
+        </Card.Header>
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
+          <Card.Text>{description}</Card.Text>
+        </Card.Body>
+      </Card>
     </Link>
   );
 };

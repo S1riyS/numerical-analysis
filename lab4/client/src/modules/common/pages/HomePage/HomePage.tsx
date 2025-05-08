@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 import { LabCard } from "@common/components";
 
@@ -6,24 +6,29 @@ const HomePage = () => {
   const labWorks = [
     {
       title: "Аппроксимация функций",
-      description: "Лабораторная работа №4",
+      labNumber: 4,
+      description:
+        "Нахождение функций, которые максимально приближают целевую функцию, заданную набором точек",
       path: "/approximation",
     },
   ];
 
   return (
     <Container>
-      <h2>Лабораторные работы</h2>
-      <div className="random">
+      <h2 className="mb-3">Лабораторные работы</h2>
+      <Row>
         {labWorks.map((work) => (
-          <LabCard
-            key={work.path}
-            title={work.title}
-            description={work.description}
-            to={work.path}
-          />
+          <Col md={6} lg={4}>
+            <LabCard
+              key={work.path}
+              title={work.title}
+              labNumber={work.labNumber}
+              description={work.description}
+              to={work.path}
+            />
+          </Col>
         ))}
-      </div>
+      </Row>
     </Container>
   );
 };
