@@ -1,7 +1,8 @@
-import { Container, Navbar } from "react-bootstrap";
-import { TbMathFunction } from "react-icons/tb";
-
 import React from "react";
+
+import { Container, Nav, Navbar } from "react-bootstrap";
+import { FaGithub } from "react-icons/fa";
+import { TbMathFunction } from "react-icons/tb";
 
 interface HeaderProps {
   author?: string;
@@ -17,9 +18,19 @@ export const Header: React.FC<HeaderProps> = ({ author, group }) => {
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            {author} {group}
-          </Navbar.Text>
+          <Nav>
+            <Navbar.Text>
+              {author} {group}
+            </Navbar.Text>
+            <Nav></Nav>
+            <Nav.Link
+              href="https://github.com/S1riyS/numerical-analysis/tree/main/lab4"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGithub size={24} />
+            </Nav.Link>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
