@@ -1,8 +1,9 @@
 import "katex/dist/katex.min.css";
-import { Alert, Col, Container, Row } from "react-bootstrap";
-import { PiMathOperations } from "react-icons/pi";
 
 import { useState } from "react";
+
+import { Alert, Col, Container, Row } from "react-bootstrap";
+import { PiMathOperations } from "react-icons/pi";
 
 import { ApproximationResponse } from "@approximation/api/types";
 import {

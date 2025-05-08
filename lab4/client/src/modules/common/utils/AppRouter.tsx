@@ -1,6 +1,6 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import React from "react";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import routes, { Route as RouteType } from "/src/routes";
 

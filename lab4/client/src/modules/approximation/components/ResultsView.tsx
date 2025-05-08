@@ -1,8 +1,8 @@
+import { useCallback, useMemo } from "react";
+
 import { Alert, Button, Card, Col, Row, Tab, Tabs } from "react-bootstrap";
 import { FaFileDownload } from "react-icons/fa";
 import { InlineMath } from "react-katex";
-
-import { useCallback, useMemo } from "react";
 
 import { ApproximationResponse } from "@approximation/api/types";
 import {

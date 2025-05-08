@@ -1,6 +1,6 @@
-import { Button, Spinner } from "react-bootstrap";
-
 import { useState } from "react";
+
+import { Button, Spinner } from "react-bootstrap";
 
 import { ApiService } from "@approximation/api/api";
 import { ApproximationResponse } from "@approximation/api/types";

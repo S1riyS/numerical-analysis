@@ -1,7 +1,7 @@
+import { useRef } from "react";
+
 import { Button, Form, Stack } from "react-bootstrap";
 import { FaFileImport } from "react-icons/fa";
-
-import { useRef } from "react";
 
 import { Point } from "@common/types";
 
