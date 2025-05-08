@@ -1,12 +1,16 @@
-import { ApproximationResponse } from "@approximation/api/types";
-import { ResultsView, SubmitApproximationButton } from "@approximation/components";
-import { PointsManager } from "@common/components/PointsManager";
-import { Point } from "@common/types";
-import { useState } from "react";
+import "katex/dist/katex.min.css";
 import { Alert, Col, Container, Row } from "react-bootstrap";
-
-import 'katex/dist/katex.min.css';
 import { PiMathOperations } from "react-icons/pi";
+
+import { useState } from "react";
+
+import { ApproximationResponse } from "@approximation/api/types";
+import {
+  ResultsView,
+  SubmitApproximationButton,
+} from "@approximation/components";
+import { PointsManager } from "@common/components";
+import { Point } from "@common/types";
 
 const ApproximationPage: React.FC = () => {
   const [points, setPoints] = useState<Point[]>([]);
@@ -31,8 +35,7 @@ const ApproximationPage: React.FC = () => {
             minPoints={8}
             maxPoints={12}
             onPointsChange={setPoints}
-          >
-          </PointsManager>
+          ></PointsManager>
           <hr />
           <SubmitApproximationButton
             points={points}
@@ -45,9 +48,16 @@ const ApproximationPage: React.FC = () => {
           {results ? (
             <ResultsView results={results} points={points} />
           ) : (
-            <Container className="d-flex justify-content-center align-items-center flex-column" style={{ height: '100%' }}>
-              <Row><PiMathOperations  size={128}/></Row>
-              <Row><i className="mt-3">Пока что здесь ничего нет...</i></Row>
+            <Container
+              className="d-flex justify-content-center align-items-center flex-column"
+              style={{ height: "100%" }}
+            >
+              <Row>
+                <PiMathOperations size={128} />
+              </Row>
+              <Row>
+                <i className="mt-3">Пока что здесь ничего нет...</i>
+              </Row>
             </Container>
           )}
         </Col>

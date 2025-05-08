@@ -1,6 +1,7 @@
 import React from "react";
-import HomePage from "@common/pages/HomePage";
+
 import ApproximationPage from "@approximation/pages/ApproximationPage";
+import HomePage from "@common/pages/HomePage";
 
 export type Route = {
   element: React.ReactNode;

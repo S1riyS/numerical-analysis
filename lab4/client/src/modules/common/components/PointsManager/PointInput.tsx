@@ -1,7 +1,7 @@
-import { Point } from '@common/types';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import { FaRegTrashCan } from 'react-icons/fa6';
-import { MdDeleteForever } from 'react-icons/md';
+import { Button, Col, Form, Row } from "react-bootstrap";
+import { FaRegTrashCan } from "react-icons/fa6";
+
+import { Point } from "@common/types";
 
 interface PointInputProps {
   point: Point;
@@ -16,7 +16,7 @@ export const PointInput: React.FC<PointInputProps> = ({
   onXChange,
   onYChange,
   onRemove,
-  canRemove
+  canRemove,
 }) => {
   return (
     <Row className="mb-1 align-items-center g-1">

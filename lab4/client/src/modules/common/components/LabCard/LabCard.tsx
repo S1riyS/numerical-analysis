@@ -1,6 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styles from './LabCard.module.css'; // Assuming you have a corresponding CSS module
+import { Link } from "react-router-dom";
+
+import React from "react";
+
+import styles from "./LabCard.module.css";
+
+// Assuming you have a corresponding CSS module
 
 interface LabCardProps {
   title: string;

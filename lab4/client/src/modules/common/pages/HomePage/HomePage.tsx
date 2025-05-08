@@ -1,17 +1,18 @@
-import { PointsManager } from '@common/components/PointsManager';
-import { LabCard } from '@common/components';
+import { Container } from "react-bootstrap";
+
+import { LabCard } from "@common/components";
 
 const HomePage = () => {
   const labWorks = [
     {
-      title: 'Аппроксимация функций',
-      description: 'Лабораторная работа №4',
-      path: '/approximation'
-    }
+      title: "Аппроксимация функций",
+      description: "Лабораторная работа №4",
+      path: "/approximation",
+    },
   ];
 
   return (
-    <div className="random">
+    <Container>
       <h2>Лабораторные работы</h2>
       <div className="random">
         {labWorks.map((work) => (
@@ -23,7 +24,7 @@ const HomePage = () => {
           />
         ))}
       </div>
-    </div>
+    </Container>
   );
 };
 

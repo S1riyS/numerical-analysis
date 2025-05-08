@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import { PointsTable } from './PointsTable';
-import { PointsControls } from './PointsControls';
-import { Point } from '@common/types';
+import { useState } from "react";
+
+import { Point } from "@common/types";
+
+import { PointsControls } from "./PointsControls";
+import { PointsTable } from "./PointsTable";
 
 interface PointsManagerProps {
   minPoints?: number;
@@ -16,7 +18,9 @@ export const PointsManager: React.FC<PointsManagerProps> = ({
   onPointsChange,
 }) => {
   const [points, setPoints] = useState<Point[]>(
-    Array(minPoints).fill(0).map(() => ({ x: '', y: '' }))
+    Array(minPoints)
+      .fill(0)
+      .map(() => ({ x: "", y: "" })),
   );
 
   const updatePoints = (newPoints: Point[]) => {
@@ -24,7 +28,11 @@ export const PointsManager: React.FC<PointsManagerProps> = ({
     onPointsChange?.(newPoints);
   };
 
-  const handlePointChange = (index: number, field: keyof Point, value: string) => {
+  const handlePointChange = (
+    index: number,
+    field: keyof Point,
+    value: string,
+  ) => {
     const newPoints = [...points];
     newPoints[index] = { ...newPoints[index], [field]: value };
     updatePoints(newPoints);
@@ -32,7 +40,7 @@ export const PointsManager: React.FC<PointsManagerProps> = ({
 
   const handleAddPoint = () => {
     if (points.length < maxPoints) {
-      updatePoints([...points, { x: '', y: '' }]);
+      updatePoints([...points, { x: "", y: "" }]);
     }
   };
 
@@ -45,9 +53,11 @@ export const PointsManager: React.FC<PointsManagerProps> = ({
 
   const handleFileUpload = (data: Point[]) => {
     // Фильтрация и валидация загруженных точек
-    const validPoints = data.filter(item =>
-      typeof item.x === 'number' && typeof item.y === 'number'
-    ).slice(0, maxPoints);
+    const validPoints = data
+      .filter(
+        (item) => typeof item.x === "number" && typeof item.y === "number",
+      )
+      .slice(0, maxPoints);
 
     if (validPoints.length >= minPoints) {
       updatePoints(validPoints);

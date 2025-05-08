@@ -1,7 +1,9 @@
-import { Button, Stack, Form } from 'react-bootstrap';
-import { useRef } from 'react';
-import { Point } from '@common/types';
-import { FaFileImport } from 'react-icons/fa';
+import { Button, Form, Stack } from "react-bootstrap";
+import { FaFileImport } from "react-icons/fa";
+
+import { useRef } from "react";
+
+import { Point } from "@common/types";
 
 interface PointsControlsProps {
   onAddPoint: () => void;
@@ -14,7 +16,7 @@ export const PointsControls: React.FC<PointsControlsProps> = ({
   onAddPoint,
   onFileUpload,
   maxPoints,
-  currentCount
+  currentCount,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -26,13 +28,13 @@ export const PointsControls: React.FC<PointsControlsProps> = ({
         try {
           const data = JSON.parse(event.target?.result as string) as Point[];
           onFileUpload(data);
-          
+
           // Сбрасываем значение input после загрузки
           if (fileInputRef.current) {
-            fileInputRef.current.value = '';
+            fileInputRef.current.value = "";
           }
         } catch (error) {
-          alert('Ошибка чтения файла');
+          alert("Ошибка чтения файла");
         }
       };
       reader.readAsText(file);
@@ -48,10 +50,10 @@ export const PointsControls: React.FC<PointsControlsProps> = ({
       >
         Добавить точку
       </Button>
-      
+
       <Form.Group controlId="formFile" className="ms-auto">
         <Form.Label className="mb-0 btn btn-outline-secondary">
-          <FaFileImport style={{ marginRight: '6px' }}/>
+          <FaFileImport style={{ marginRight: "6px" }} />
           Загрузить из файла
           <Form.Control
             type="file"

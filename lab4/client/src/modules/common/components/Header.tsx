@@ -1,5 +1,7 @@
-import React from 'react';
-import { Container, Navbar } from 'react-bootstrap';
+import { Container, Navbar } from "react-bootstrap";
+import { TbMathFunction } from "react-icons/tb";
+
+import React from "react";
 
 interface HeaderProps {
   author?: string;
@@ -10,7 +12,9 @@ export const Header: React.FC<HeaderProps> = ({ author, group }) => {
   return (
     <Navbar className="bg-body-tertiary mb-3">
       <Container fluid className="px-4">
-        <Navbar.Brand href="/">Вычислительная математика</Navbar.Brand>
+        <Navbar.Brand href="/">
+          <TbMathFunction /> Вычислительная математика
+        </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>

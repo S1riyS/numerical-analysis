@@ -1,8 +1,10 @@
-import { ApiService } from '@approximation/api/api';
-import { ApproximationResponse } from '@approximation/api/types';
-import { Point } from '@common/types';
-import { useState } from 'react';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Spinner } from "react-bootstrap";
+
+import { useState } from "react";
+
+import { ApiService } from "@approximation/api/api";
+import { ApproximationResponse } from "@approximation/api/types";
+import { Point } from "@common/types";
 
 interface SubmitApproximationButtonProps {
   points: Point[];
@@ -10,11 +12,9 @@ interface SubmitApproximationButtonProps {
   onError?: (error: string) => void;
 }
 
-export const SubmitApproximationButton: React.FC<SubmitApproximationButtonProps> = ({
-  points,
-  onResults,
-  onError,
-}) => {
+export const SubmitApproximationButton: React.FC<
+  SubmitApproximationButtonProps
+> = ({ points, onResults, onError }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAnalyze = async () => {
@@ -23,7 +23,7 @@ export const SubmitApproximationButton: React.FC<SubmitApproximationButtonProps>
       const results = await ApiService.analyzePoints(points);
       onResults(results);
     } catch (err) {
-      onError?.(err instanceof Error ? err.message : 'Неизвестная ошибка');
+      onError?.(err instanceof Error ? err.message : "Неизвестная ошибка");
     } finally {
       setIsLoading(false);
     }
@@ -31,18 +31,14 @@ export const SubmitApproximationButton: React.FC<SubmitApproximationButtonProps>
 
   return (
     <div className="analysis-controller mt-3">
-      <Button
-        variant="success"
-        onClick={handleAnalyze}
-        disabled={isLoading}
-      >
+      <Button variant="success" onClick={handleAnalyze} disabled={isLoading}>
         {isLoading ? (
           <>
             <Spinner animation="border" size="sm" className="me-2" />
             Анализ...
           </>
         ) : (
-          'Начать'
+          "Начать"
         )}
       </Button>
     </div>

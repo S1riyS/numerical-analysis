@@ -1,2 +1,2 @@
-export * from './SubmitApproximationButton';
-export * from './ResultsView';
+export * from "./SubmitApproximationButton";
+export * from "./ResultsView";

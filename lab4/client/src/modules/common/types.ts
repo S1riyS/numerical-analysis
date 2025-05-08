@@ -1,9 +1,9 @@
 export interface Point {
-    x: number | string;
-    y: number | string;
+  x: string;
+  y: string;
 }
 
 export interface NamedFunction {
-    func(x: number): number
-    name: string
+  func(x: number): number;
+  name: string;
 }
