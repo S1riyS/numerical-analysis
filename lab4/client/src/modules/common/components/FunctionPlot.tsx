@@ -36,6 +36,7 @@ interface FunctionPlotProps {
   maxX: number;
   steps?: number;
   points?: Point[];
+  singlePoint?: Point;
   width?: string | number;
   height?: string | number;
   title?: string;
@@ -58,6 +59,7 @@ export const FunctionPlot: React.FC<FunctionPlotProps> = ({
   maxX,
   steps = 1000,
   points = [],
+  singlePoint,
   width = "100%",
   height = "400px",
   title = "Function Plot",
@@ -116,8 +118,8 @@ export const FunctionPlot: React.FC<FunctionPlotProps> = ({
     const chartData: CustomChartData = {
       datasets: [
         {
+          label: "Function",
           type: "line" as const,
-          label: `Function`,
           data: functionData,
           borderColor: lineColor,
           backgroundColor: backgroundColor,
@@ -127,8 +129,8 @@ export const FunctionPlot: React.FC<FunctionPlotProps> = ({
           fill: false,
         },
         {
-          type: "scatter" as const,
           label: "Points",
+          type: "scatter" as const,
           data: pointData,
           backgroundColor: pointColor,
           borderColor: pointColor,
@@ -137,6 +139,23 @@ export const FunctionPlot: React.FC<FunctionPlotProps> = ({
         },
       ],
     };
+
+    if (singlePoint) {
+      chartData.datasets.push({
+        label: "Single Point",
+        type: "scatter" as const,
+        data: [
+          {
+            x: parseFloat(singlePoint.x),
+            y: parseFloat(singlePoint.y),
+          },
+        ],
+        backgroundColor: "rgb(184, 192, 75)",
+        borderColor: "rgb(184, 192, 75)",
+        pointRadius: 5,
+        pointHoverRadius: 6,
+      });
+    }
 
     const chartOptions: ChartOptions<"line" | "scatter"> = {
       responsive: true,

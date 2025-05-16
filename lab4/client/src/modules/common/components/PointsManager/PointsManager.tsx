@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { Button, Card, Col, Row } from "react-bootstrap";
+
 import { Point } from "@common/types";
 
 import { PointsControls } from "./PointsControls";
@@ -67,24 +69,24 @@ export const PointsManager: React.FC<PointsManagerProps> = ({
   };
 
   return (
-    <div className="points-manager">
-      <PointsTable
-        points={points}
-        onPointChange={handlePointChange}
-        onRemovePoint={handleRemovePoint}
-        minPoints={minPoints}
-      />
-
-      <PointsControls
-        onAddPoint={handleAddPoint}
-        onFileUpload={handleFileUpload}
-        maxPoints={maxPoints}
-        currentCount={points.length}
-      />
-
-      <div className="mt-1 mb-1 text-muted">
-        Точки: {points.length} (min: {minPoints}, max: {maxPoints})
-      </div>
-    </div>
+    <Card>
+      <Card.Header as="h5">Ввод точек</Card.Header>
+      <Card.Body>
+        <PointsTable
+          points={points}
+          onPointChange={handlePointChange}
+          onRemovePoint={handleRemovePoint}
+          minPoints={minPoints}
+        />
+      </Card.Body>
+      <Card.Footer>
+        <PointsControls
+          onAddPoint={handleAddPoint}
+          onFileUpload={handleFileUpload}
+          maxPoints={maxPoints}
+          currentCount={points.length}
+        />
+      </Card.Footer>
+    </Card>
   );
 };

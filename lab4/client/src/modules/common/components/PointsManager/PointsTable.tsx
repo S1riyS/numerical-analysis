@@ -18,9 +18,7 @@ export const PointsTable: React.FC<PointsTableProps> = ({
   minPoints,
 }) => {
   return (
-    <Card className="mb-2 pb-2">
-      <Card.Body className="pb-0">
-        <Card.Title>Таблица точек</Card.Title>
+    <>
         {points.map((point, index) => (
           <PointInput
             key={index}
@@ -31,7 +29,6 @@ export const PointsTable: React.FC<PointsTableProps> = ({
             canRemove={points.length > minPoints}
           />
         ))}
-      </Card.Body>
-    </Card>
+      </>
   );
 };

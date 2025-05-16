@@ -5,6 +5,7 @@ import { FaFileDownload } from "react-icons/fa";
 import { InlineMath } from "react-katex";
 
 import { ApproximationResponse } from "@approximation/api/types";
+import { FunctionType } from "@approximation/types";
 import {
   resultToFunction,
   resultToLatex,
@@ -66,7 +67,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
           </Row>
         </Card.Title>
 
-        <Tabs defaultActiveKey="linear" className="mb-3">
+        <Tabs defaultActiveKey={FunctionType.LINEAR} className="mb-3">
           {results.results.map((result, index) => {
             // Memoize the function based on the result
             const plotFunction = useMemo(

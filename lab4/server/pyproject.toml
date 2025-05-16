@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.10"
 fastapi = {extras = ["standard"], version = "^0.115.12"}
 numpy = "^2.2.4"
+sympy = "^1.14.0"
 
 
 [build-system]
@@ -24,4 +25,4 @@ disallow_untyped_calls = false
 
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = ["server/src"]
