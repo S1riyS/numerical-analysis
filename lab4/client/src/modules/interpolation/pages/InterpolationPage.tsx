@@ -132,61 +132,18 @@ const ApproximationPage: React.FC = () => {
           </Row>
 
           {/* Выбор вида интерполяции */}
-          <Row className="mb-3">
-            <Tabs
-              defaultActiveKey={methodType}
-              onSelect={(k) => setMethodType(k as MethodTypeKey)}
-              className="mb-3"
-            >
-              {/* Points table input tab */}
-              <Tab
-                key={1}
-                eventKey={MethodTypeKey.INTERPOLATION}
-                title="Интерполяция"
-              >
-                <Card>
-                  <Card.Header as="h5">Параметры</Card.Header>
-                  <Card.Body>
-                    <EnumSelect
-                      enumObj={InterpolationMethod}
-                      value={interpolationMethod}
-                      onChange={setInterpolationMethod}
-                      getLabel={interpolationMethodToName}
-                      label="Метод:"
-                    />
-                  </Card.Body>
-                </Card>
-              </Tab>
-
-              {/* Function input tab */}
-              <Tab
-                key={2}
-                eventKey={MethodTypeKey.POINT}
-                title="Значение в точке"
-              >
-                <Card>
-                  <Card.Header as="h5">Параметры</Card.Header>
-                  <Card.Body>
-                    <EnumSelect
-                      enumObj={PointInterpolationMethod}
-                      value={pointInterpolationMethod}
-                      onChange={setPointInterpolationMethod}
-                      getLabel={pointInterpolationMethodToName}
-                      label="Метод:"
-                    />
-                    <Form.Label className="mt-3">Точка X:</Form.Label>
-                    <Form.Control
-                      type="number"
-                      step={0.1}
-                      value={pointX}
-                      onChange={(e) => setPointX(parseFloat(e.target.value))}
-                      placeholder="Значение"
-                    />
-                  </Card.Body>
-                </Card>
-              </Tab>
-            </Tabs>
-          </Row>
+          <Card className="mb-3">
+            <Card.Header as="h5">Параметры</Card.Header>
+            <Card.Body>
+              <EnumSelect
+                enumObj={InterpolationMethod}
+                value={interpolationMethod}
+                onChange={setInterpolationMethod}
+                getLabel={interpolationMethodToName}
+                label="Метод:"
+              />
+            </Card.Body>
+          </Card>
 
           {/* Кнопка запуска */}
           <SubmitInterpolationButton
