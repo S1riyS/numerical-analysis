@@ -1,0 +1,16 @@
+{
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.codeActionsOnSave": {
+            "source.fixAll.ruff": "explicit",
+            "source.organizeImports.ruff": "explicit",
+        }
+    },
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/src"
+    ],
+    "mypy.configFile": "./pyproject.toml",
+    "python.envFile": "${workspaceFolder}/.env",
+    "ruff.configuration": "${workspaceFolder}/.ruff.toml",
+}
