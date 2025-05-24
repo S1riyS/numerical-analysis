@@ -15,7 +15,9 @@ class NewtonFiniteDifferencesSolver(BaseSolver):
         hs = [self.xs[i + 1] - self.xs[i] for i in range(len(self.xs) - 1)]
         dhs = [abs(hs[i + 1] - hs[i]) for i in range(len(hs) - 1)]
         if max(dhs) > 1e-6:
-            return InterpolationValidation(success=False, message="xs are not evenly distributed")
+            return InterpolationValidation(
+                success=False, message="xs are not evenly distributed"
+            )
         return InterpolationValidation(success=True, message=None)
 
     def solve(self) -> InterpolationResult:
@@ -26,14 +28,17 @@ class NewtonFiniteDifferencesSolver(BaseSolver):
         polynomial: sp.Expr = 0
         product_term: sp.Expr = 1
         for i in range(n):
-            coeff = to_sp_float(self._compute_finite_difference(0, i) / (factorial(i) * h**i))
+            coeff = to_sp_float(
+                self._compute_finite_difference(0, i) / (factorial(i) * h**i)
+            )
 
             if i > 0:
                 product_term *= x - to_sp_float(self.xs[i - 1])
             polynomial += coeff * product_term if i > 0 else coeff
 
         f_expr: sp.Expr = sp.simplify(polynomial).expand()
-        return InterpolationResult(expr=f_expr)
+        y_value = sp.lambdify(x, f_expr, "math")(to_sp_float(self.x_value))
+        return InterpolationResult(expr=f_expr, y_value=float(str(y_value)))
 
     def _compute_finite_difference(self, i: int, order: int) -> float:
         if order == 0:

@@ -6,6 +6,7 @@ import sympy as sp  # type: ignore
 @dataclass
 class InterpolationResult:
     expr: sp.Expr
+    y_value: float
 
 
 @dataclass

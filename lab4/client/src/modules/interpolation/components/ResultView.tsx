@@ -103,17 +103,11 @@ export const ResultView: React.FC<ResultViewProps> = ({ result, error }) => {
           minX={minX - padding}
           maxX={maxX + padding}
           points={XsYsListToPoints(result.points)}
-          singlePoint={
-            isPointInterpolationResponse(result)
-              ? ({
+          singlePoint={{
                   x: result.x_value.toString(),
                   y: result.data.y_value.toString(),
-                } as Point)
-              : undefined
-          }
+                } as Point}
         />
-        {isPointInterpolationResponse(result) ? (
-          // Point interpolation result
           <>
             <Row className="mt-2">
               <Col sm={4}>Функция:</Col>
@@ -130,17 +124,6 @@ export const ResultView: React.FC<ResultViewProps> = ({ result, error }) => {
               </Col>
             </Row>
           </>
-        ) : (
-          // Regular interpolation result
-          <>
-            <Row className="mt-2">
-              <Col sm={4}>Функция:</Col>
-              <Col sm={8} className="font-monospace">
-                <InlineMath math={`f(x) = ${latex}`}></InlineMath>
-              </Col>
-            </Row>
-          </>
-        )}
       </Card.Body>
     </Card>
   );

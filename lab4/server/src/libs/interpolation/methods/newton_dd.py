@@ -1,4 +1,3 @@
-from decimal import Decimal
 from functools import lru_cache
 
 import sympy as sp  # type: ignore
@@ -26,10 +25,8 @@ class NewtonDividedDifferencesSolver(BaseSolver):
             polynomial += to_sp_float(self._compute_dd(0, k)) * xs_prod
 
         f_expr: sp.Expr = sp.simplify(polynomial).expand()
-
-        return InterpolationResult(
-            expr=f_expr,
-        )
+        y_value = sp.lambdify(x, f_expr, "math")(to_sp_float(self.x_value))
+        return InterpolationResult(expr=f_expr, y_value=float(str(y_value)))
 
     @lru_cache()
     def _compute_dd(self, i: int, order: int) -> float:

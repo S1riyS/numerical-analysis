@@ -19,7 +19,6 @@ import {
 } from "@interpolation/types";
 import {
   interpolationMethodToName,
-  pointInterpolationMethodToName,
 } from "@interpolation/utils/mappers";
 
 enum PointInputTypeKey {
@@ -78,6 +77,7 @@ const ApproximationPage: React.FC = () => {
         const response = await ApiService.interpolate(
           points,
           interpolationMethod,
+          pointX
         );
         setResult(response);
       } else {
@@ -142,6 +142,14 @@ const ApproximationPage: React.FC = () => {
                 getLabel={interpolationMethodToName}
                 label="Метод:"
               />
+              <Form.Label className="mt-3">Точка X:</Form.Label>
+                    <Form.Control
+                      type="number"
+                      step={0.1}
+                      value={pointX}
+                      onChange={(e) => setPointX(parseFloat(e.target.value))}
+                      placeholder="Значение"
+                    />
             </Card.Body>
           </Card>
 

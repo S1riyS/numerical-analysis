@@ -31,15 +31,18 @@ class PointsList(FloatRoundedBaseModel):
 class InterpolationRequest(FloatRoundedBaseModel):
     points: PointsList
     method: InterpolationMethod
+    x_value: float
 
 
 class InterpolationData(FloatRoundedBaseModel):
+    y_value: float
     f_expr: str
 
 
 class InterpolationResponse(FloatRoundedBaseModel):
     method: InterpolationMethod
     points: PointsList
+    x_value: float
     success: bool
     message: str | None = None
     data: InterpolationData | None

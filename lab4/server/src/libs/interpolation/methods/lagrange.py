@@ -28,4 +28,5 @@ class LagrangeSolver(BaseSolver):
             polynomial += term
 
         f_expr: sp.Expr = sp.simplify(polynomial).expand()
-        return InterpolationResult(expr=f_expr)
+        y_value = sp.lambdify(x, f_expr, "math")(to_sp_float(self.x_value))
+        return InterpolationResult(expr=f_expr, y_value=float(str(y_value)))

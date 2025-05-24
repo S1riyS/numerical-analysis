@@ -1,4 +1,4 @@
-import sympy as sp
+import sympy as sp  # type: ignore
 from libs.interpolation.methods import (
     LagrangeSolver,
     NewtonDividedDifferencesSolver,
@@ -28,11 +28,15 @@ class InterpolationService:
         solver: BaseSolver | None = None
 
         if data.method == InterpolationMethod.NEWTON_DIVIDED_DIFFERENCES:
-            solver = NewtonDividedDifferencesSolver(data.points.xs, data.points.ys)
+            solver = NewtonDividedDifferencesSolver(
+                data.points.xs, data.points.ys, data.x_value
+            )
         elif data.method == InterpolationMethod.NEWTON_FINITE_DIFFERENCES:
-            solver = NewtonFiniteDifferencesSolver(data.points.xs, data.points.ys)
+            solver = NewtonFiniteDifferencesSolver(
+                data.points.xs, data.points.ys, data.x_value
+            )
         elif data.method == InterpolationMethod.LAGRANGE:
-            solver = LagrangeSolver(data.points.xs, data.points.ys)
+            solver = LagrangeSolver(data.points.xs, data.points.ys, data.x_value)
 
         if not solver:
             raise Exception("Invalid interpolation method")
@@ -42,10 +46,12 @@ class InterpolationService:
         if validation_res.success:
             res = solver.solve()
             f_expr = round_expr(res.expr)
-            res_data = InterpolationData(f_expr=f_expr)
+            res_data = InterpolationData(f_expr=f_expr, y_value=res.y_value)
+
         return InterpolationResponse(
             method=solver.interpolation_method,
             points=data.points,
+            x_value=data.x_value,
             success=validation_res.success,
             message=validation_res.message,
             data=res_data,

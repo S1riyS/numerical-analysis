@@ -7,10 +7,10 @@ from libs.interpolation.models.validation import InterpolationValidation
 
 
 class BaseSolver(ABC):
-
-    def __init__(self, x: List[float], y: List[float]):
+    def __init__(self, x: List[float], y: List[float], x_value: float):
         self.xs = x
         self.ys = y
+        self.x_value = x_value
         self.n = len(x)
 
         if len(x) != len(y):

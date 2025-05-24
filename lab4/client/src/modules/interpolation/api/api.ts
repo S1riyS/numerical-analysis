@@ -39,7 +39,19 @@ export class ApiService {
     });
 
     if (!response.ok) {
+      const responseJson = await response.json();
+      if (responseJson.detail) {
+        // Pydantic error
+        const errorMessages = responseJson.detail.map((error: any) => {
+          // Extract field name from loc (skip 'body' and take the last element)
+          const fieldPath = error.loc.slice(1).join('.');
+          return ` ${fieldPath}: ${error.msg}`;
+        }).join('\n');
+        
+        throw new Error(`Validation errors:\n${errorMessages}`);
+      } else {
       throw new Error(`Server error: ${response.status}`);
+      }
     }
 
     return await response.json();
@@ -48,11 +60,13 @@ export class ApiService {
   static async interpolate(
     points: Point[],
     method: InterpolationMethod,
+    xValue: number
   ): Promise<InterpolationResponse> {
     const pointsList = this.preparePoints(points);
     const request: InterpolationRequest = {
       points: pointsList,
       method,
+      x_value: xValue, 
     };
 
     return this.makeRequest<InterpolationResponse>("/interpolation/", request);
